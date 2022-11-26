@@ -1,12 +1,17 @@
-# Lightweight docker image (Alpine based) containing rdkafka & Python3
+# Docker image for rdkafka & Python3 based on Alpine.
 
-This image is available in the public docker hub: `docker pull exaspace/python3-rdkafka:VERSION`. 
 
-Current latest VERSION is 1.0.0-0: `docker pull exaspace/python3-rdkafka:1.0.0-0`
+Use this base image if you want to run Python3 apps that need rdkafka.
 
-Version 1.0.0-0 contains:
+	docker pull exaspace/python3-rdkafka
 
-* Python 3.7.3
-* lib-rdkafka 1.0.0
+* Small image size (roughly 150MB).
+* The image is rebuilt every week to ensure security updates and latest versions are applied
 
-Why use this base image? If you want to build Python3 apps that need rdkafka clearly!
+
+## Contains 
+
+* Python3
+* librdkafka
+* confluent-kafka (installed via pip)
+  

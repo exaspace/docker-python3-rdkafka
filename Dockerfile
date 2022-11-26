@@ -1,8 +1,11 @@
-# Latest python & RD_KAFKA versions as of 2019-06-10
+#
+# Uses the latest stable Python3 & RD_KAFKA versions available on 2022-11-26
+#
 
-FROM python:3.7.3-alpine3.9 
 
-ENV LIB_RD_KAFKA_VERSION=1.0.0
+FROM python:3.11.0-alpine3.16 AS build
+
+ENV LIB_RD_KAFKA_VERSION=1.9.2
 
 RUN apk add --update \
     bash \
@@ -10,8 +13,15 @@ RUN apk add --update \
     ca-certificates \
     musl-dev \
     openssl \
-    tar \
-    && update-ca-certificates \
-    && wget -O - https://github.com/edenhill/librdkafka/archive/v${LIB_RD_KAFKA_VERSION}.tar.gz | tar xzf - \
-    && cd librdkafka-${LIB_RD_KAFKA_VERSION} && ./configure --prefix=/usr && make && make install
+    tar 
 
+RUN wget -O - https://github.com/edenhill/librdkafka/archive/v${LIB_RD_KAFKA_VERSION}.tar.gz | tar xzf - 
+
+RUN cd librdkafka-${LIB_RD_KAFKA_VERSION} \
+    && ./configure --prefix=/usr \
+    && make \
+    && make install
+
+FROM python:3.11.0-alpine3.16
+COPY --from=build /usr /usr
+RUN pip install confluent-kafka
