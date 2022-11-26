@@ -4,8 +4,8 @@ on:
     # allow manual triggering
 
   schedule:
-    # trigger minute 10
-    - cron:  '19 * * * *'    
+    # trigger every Sunday
+    - cron:  '* * * * 0'
   
   push:
     # trigger when a tag is pushed
